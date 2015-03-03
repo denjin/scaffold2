@@ -8,7 +8,7 @@
     <div class="container">
         <h1>Hello</h1>
         @foreach($articles as $article)
-            @include('articles.article_link', array('title' => $article->title, 'body' => $article->body))
+            @include('articles.article_link', array('title' => $article->title, 'body' => $article->body, 'slug' => $article->slug))
         @endforeach
     </div>
 @stop

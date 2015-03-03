@@ -1,9 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-use Request;
 use Scaffold\Repositories\Articles\ArticleRepositoryInterface;
 use App\Http\Requests\CreateArticleRequest;
 
@@ -18,7 +15,7 @@ class ArticlesController extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 * @return mixed
 	 */
 	public function index() {
 		$articles = $this->article->findAll();
@@ -42,39 +39,57 @@ class ArticlesController extends Controller {
 	public function store(CreateArticleRequest $request) {
 		$article = $this->article->store($request->all());
 		if($article) {
-			return action('ArticlesController@show', [$article->id]);
+			return redirect()->action('ArticlesController@show', [$article['slug']]);
 		}
-		return action('ArticlesController@create')->with($request->all());
+		return redirect()->action('ArticlesController@create')->with($request->all());
 	}
 
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  string  $slug
 	 * @return Response
 	 */
-	public function show($id) {
-		//
+	public function show($slug) {
+		//get the article
+		$article = $this->article->findByKey('slug', $slug);
+		//if we found an article
+		if ($article) {
+			//build the view
+			return view('articles.single', compact('article'));
+		}
+		//404
 	}
 
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  string  $slug
 	 * @return Response
 	 */
-	public function edit($id) {
-		//
+	public function edit($slug) {
+		//get the article
+		$article = $this->article->findByKey('slug', $slug);
+		//if we found an article
+		if ($article) {
+			//build the view
+			return view('articles.edit', compact('article'));
+		}
 	}
 
 	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  int  $id
+	 * @param $request
 	 * @return Response
 	 */
-	public function update($id) {
-		//
+	public function update($id, CreateArticleRequest $request) {
+		$article = $this->article->update($id, $request->all());
+		//if the article was updated
+		if ($article) {
+			return redirect()->action('ArticlesController@show', [$article['slug']]);
+		}
 	}
 
 	/**

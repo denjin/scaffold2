@@ -1,8 +1,6 @@
 <?php namespace Scaffold\Repositories\Articles;
 
-use App\Http\Requests\CreateArticleRequest;
 use App\Models\Article;
-use Illuminate\Support\Facades\Request;
 use Scaffold\Repositories\BaseEloquentRepository;
 
 class EloquentArticleRepository extends BaseEloquentRepository implements ArticleRepositoryInterface {
@@ -17,22 +15,36 @@ class EloquentArticleRepository extends BaseEloquentRepository implements Articl
 	 * @return article
 	 */
 	public function store(array $data) {
-		return $this->model->create($data);
+		//create the article
+		$article = $this->model->create($data);
+		//return the attributes of the new article
+		return $article->attributesToArray();
 	}
 
 	/**
 	 * Updates an existing entry in the database
+	 * @param $id
 	 * @param array $data
 	 */
-	public function update(array $data) {
-
+	public function update($id, array $data) {
+		//find the article
+		$article = $this->model->findOrFail($id);
+		if ($article) {
+			//if we found the article, update it
+			$article->update($data);
+			//return the attributes of the updated article
+			return $article->attributesToArray();
+		}
+		//if we couldn't find the article
+		//abort
 	}
 
 	/**
 	 * Removes an entry from the database
+	 * @param int $id
 	 * @param array $data
 	 */
-	public function destroy(array $data) {
+	public function destroy($id, array $data) {
 
 	}
 }
