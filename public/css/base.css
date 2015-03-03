@@ -1,0 +1,25 @@
+body {
+    padding-top: 70px;
+    padding-bottom: 50px;
+}
+
+#login-box {
+    background: #eee;
+    padding: 5px;
+    border-bottom: solid 1px #bbb;
+    border-left: solid 1px #bbb;
+    position: fixed;
+    top: 50px;
+    right: 0;
+}
+
+.button-panel {
+    background: #eee;
+    text-align: center;
+    width: 100%;
+    border-top: solid 1px #bbb;
+    padding: 3px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
