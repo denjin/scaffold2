@@ -1,11 +1,12 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Input;
 use Scaffold\Repositories\Articles\ArticleRepositoryInterface;
 use App\Http\Requests\CreateArticleRequest;
 
 class ArticlesController extends Controller {
-
 	protected $article;
 
 	public function __construct(ArticleRepositoryInterface $article) {
@@ -14,17 +15,26 @@ class ArticlesController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
-	 *
 	 * @return mixed
 	 */
 	public function index() {
-		$articles = $this->article->findAll();
-		return view('articles.index', compact('articles'));
+		//get current page
+		$page = Input::get('page', 1);
+		//grab a selection from the database to paginate with
+		$data = $this->article->findByPage($page, 5);
+		//paginate items
+		$articles = new LengthAwarePaginator($data->items, $data->totalItems, 5);
+		//set path for pagination links
+		$articles->setPath('/articles');
+		//if paginator executed correctly
+		if($articles) {
+			//build the view
+			return view('articles.index', compact('articles'));
+		}
 	}
 
 	/**
 	 * Show the form for creating a new resource.
-	 *
 	 * @return Response
 	 */
 	public function create() {
@@ -46,7 +56,6 @@ class ArticlesController extends Controller {
 
 	/**
 	 * Display the specified resource.
-	 *
 	 * @param  string  $slug
 	 * @return Response
 	 */
