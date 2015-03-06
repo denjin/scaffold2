@@ -40,9 +40,10 @@ abstract class BaseEloquentRepository {
 	}
 
 	/**
-	 * find many entries by a field on a column
+	 * find many entries by a field on a column and eager loads any designated relationships
 	 * @param $key - string - column to search
 	 * @param $value - string - field to find
+	 * @param $with - array of relationships to eager load
 	 * @return array of results
 	 */
 	public function findManyByKey($key, $value, array $with = []) {
@@ -51,7 +52,7 @@ abstract class BaseEloquentRepository {
 	}
 
 	/**
-	 * gets a paginated set of results
+	 * gets a paginated set of results and eager loads any designated relationships
 	 * @param $page - page of results to grab
 	 * @param $limit - number of results to show
 	 * @param $with - array of relationships to eager load
@@ -76,5 +77,44 @@ abstract class BaseEloquentRepository {
 		//add the data to the results
 		$results->items = $posts->all();
 		return $results;
+	}
+
+	/**
+	 * Adds a new entry to the database
+	 * @param array $data
+	 * @return article
+	 */
+	public function store(array $data) {
+		//create the article
+		$entry = $this->model->create($data);
+		//return the attributes of the new article
+		return $entry->attributesToArray();
+	}
+
+	/**
+	 * Updates an existing entry in the database
+	 * @param $id
+	 * @param array $data
+	 */
+	public function update($id, array $data) {
+		//find the article
+		$entry = $this->model->findOrFail($id);
+		if ($entry) {
+			//if we found the article, update it
+			$entry->update($data);
+			//return the attributes of the updated article
+			return $entry->attributesToArray();
+		}
+		//if we couldn't find the article
+		//abort
+	}
+
+	/**
+	 * Removes an entry from the database
+	 * @param int $id
+	 * @param array $data
+	 */
+	public function destroy($id, array $data) {
+
 	}
 }

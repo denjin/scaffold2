@@ -5,6 +5,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Input;
 use Scaffold\Repositories\Articles\ArticleRepositoryInterface;
 use App\Http\Requests\CreateArticleRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlesController extends Controller {
 	protected $article;
@@ -15,27 +16,21 @@ class ArticlesController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
-	 * @return mixed
+	 * @return view
 	 */
 	public function index() {
-		//get current page
 		$page = Input::get('page', 1);
-		//grab a selection from the database to paginate with
 		$data = $this->article->findByPage($page, 5);
-		//paginate items
 		$articles = new LengthAwarePaginator($data->items, $data->totalItems, 5);
-		//set path for pagination links
 		$articles->setPath('/articles');
-		//if paginator executed correctly
 		if($articles) {
-			//build the view
 			return view('articles.index', compact('articles'));
 		}
 	}
 
 	/**
 	 * Show the form for creating a new resource.
-	 * @return Response
+	 * @return view
 	 */
 	public function create() {
 		return view('articles.create');
@@ -55,16 +50,13 @@ class ArticlesController extends Controller {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Display the specified resource, eager loads relationship with the user and with any comments
 	 * @param  string  $slug
-	 * @return Response
+	 * @return view
 	 */
 	public function show($slug) {
-		//get the article
-		$article = $this->article->findByKey('slug', $slug);
-		//if we found an article
+		$article = $this->article->findByKey('slug', $slug, array('user', 'comments'));
 		if ($article) {
-			//build the view
 			return view('articles.single', compact('article'));
 		}
 		//404
@@ -74,16 +66,14 @@ class ArticlesController extends Controller {
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  string  $slug
-	 * @return Response
+	 * @return view
 	 */
 	public function edit($slug) {
-		//get the article
 		$article = $this->article->findByKey('slug', $slug);
-		//if we found an article
 		if ($article) {
-			//build the view
 			return view('articles.edit', compact('article'));
 		}
+		//404
 	}
 
 	/**
@@ -95,10 +85,10 @@ class ArticlesController extends Controller {
 	 */
 	public function update($id, CreateArticleRequest $request) {
 		$article = $this->article->update($id, $request->all());
-		//if the article was updated
 		if ($article) {
 			return redirect()->action('ArticlesController@show', [$article['slug']]);
 		}
+		//error
 	}
 
 	/**

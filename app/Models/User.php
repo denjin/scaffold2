@@ -22,13 +22,36 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email', 'password'];
+	protected $fillable = ['username', 'email', 'password', 'oauth_token'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
-	 *
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
+
+	/**
+	 * User has many Articles
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function articles() {
+		return $this->hasMany('\App\Models\Article');
+	}
+
+	/**
+	 * User has many Comments
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function comments() {
+		return $this->hasMany('\App\Models\Comment');
+	}
+
+	/**
+	 * User has one Role
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function role() {
+		return $this->belongsTo('\App\Models\Role');
+	}
 
 }

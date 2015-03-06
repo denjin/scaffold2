@@ -11,10 +11,18 @@
 |
 */
 
+//login, logout, register etc
+Route::controller('auth', 'Auth\AuthController');
+//password reminders
+Route::controller('password', 'Auth\PasswordController');
+//social authentication
+Route::get('social_login', 'Auth\AuthController@socialLogin');
 
-
+//"static" pages
 Route::get('/', 'PagesController@home');
-
-Route::resource('articles', 'ArticlesController');
-
 Route::get('about', 'PagesController@about');
+
+//blog articles
+Route::resource('articles', 'ArticlesController');
+//comments
+Route::resource('comments', 'CommentsController');

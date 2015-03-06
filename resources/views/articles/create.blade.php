@@ -6,6 +6,6 @@
 
 @section('content')
     {!! Form::open(['action' => 'ArticlesController@store']) !!}
-        @include('articles.forms.article_form', ['method' => 'POST', 'action' => 'ArticlesController@store'])
+        @include('articles.forms.article_form')
     {!! Form::close() !!}
 @stop

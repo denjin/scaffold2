@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.master')
 
 @section('content')
 <div class="container-fluid">
@@ -47,16 +47,15 @@
 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary" style="margin-right: 15px;">
-									Login
-								</button>
-
-								<a href="/password/email">Forgot Your Password?</a>
+								<button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-user"></span> Login</button>
+								<a href="/password/email" class="btn btn-warning btn-block"><span class="glyphicon glyphicon-question-sign"></span> I forgot my password.</a>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
+
+
 		</div>
 	</div>
 </div>

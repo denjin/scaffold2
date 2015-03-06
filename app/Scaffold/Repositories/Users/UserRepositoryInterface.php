@@ -1,7 +1,7 @@
-<?php namespace Scaffold\Repositories\Articles;
+<?php namespace Scaffold\Repositories\Users;
 
 
-interface ArticleRepositoryInterface {
+interface UserRepositoryInterface {
 	public function findAll();
 	public function findById($id);
 	public function findByKey($key, $value, array $with = []);
