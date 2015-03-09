@@ -1,16 +1,21 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use McCool\LaravelAutoPresenter\HasPresenter;
+use Scaffold\Presenters\ArticlePresenter;
 
-class Article extends Model {
+class Article extends Model implements HasPresenter {
 
 	//
-	protected $fillable = [
-		'title',
-		'body',
-		'published_at',
-		'slug'
-	];
+	protected $fillable = ['title', 'body', 'published_at', 'slug'];
+
+	/**
+	 * Get the presenter class
+	 * @return string
+	 */
+	public function getPresenterClass() {
+		return ArticlePresenter::class;
+	}
 
 	/**
 	 * Article belongs to a user

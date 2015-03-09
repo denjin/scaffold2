@@ -4,6 +4,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model {
 
+	protected $fillable = [
+		'comment',
+		'user_id',
+		'article_id'
+	];
+
 	/**
 	 * Comment belongs to an Article
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

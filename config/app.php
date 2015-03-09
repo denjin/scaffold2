@@ -109,10 +109,7 @@ return [
 	*/
 
 	'providers' => [
-
-		/*
-		 * Laravel Framework Service Providers...
-		 */
+		//Laravel Framework Service Providers
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Bus\BusServiceProvider',
@@ -136,17 +133,18 @@ return [
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
-		'Laravel\Socialite\SocialiteServiceProvider',
 
-		/*
-		 * Application Service Providers...
-		 */
+		//Application Service Providers
 		'App\Providers\AppServiceProvider',
 		'App\Providers\BusServiceProvider',
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 		'App\Providers\DatabaseServiceProvider',
+
+		//External packages
+		'Laravel\Socialite\SocialiteServiceProvider',
+		'McCool\LaravelAutoPresenter\LaravelAutoPresenterServiceProvider',
 
 	],
 

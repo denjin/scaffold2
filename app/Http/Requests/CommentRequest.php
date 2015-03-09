@@ -1,17 +1,15 @@
 <?php namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Contracts\Auth\Guard;
 
 class CommentRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
-	 *
+	 * @param $auth
 	 * @return bool
 	 */
-	public function authorize(Guard $auth)
-	{
+	public function authorize(Guard $auth) {
 		if($auth->user()->role->id > 0) {
 			return true;
 		}
@@ -23,10 +21,8 @@ class CommentRequest extends Request {
 	 *
 	 * @return array
 	 */
-	public function rules()
-	{
+	public function rules() {
 		return [
-			//
 			'comment' => 'required|min:10'
 		];
 	}

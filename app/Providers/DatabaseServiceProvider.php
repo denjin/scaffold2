@@ -2,6 +2,8 @@
 
 use Illuminate\Support\ServiceProvider;
 
+use Scaffold\Repositories\Comments\CommentRepositoryInterface;
+use Scaffold\Repositories\Comments\EloquentCommentRepository;
 use Scaffold\Repositories\Articles\ArticleRepositoryInterface;
 use Scaffold\Repositories\Articles\EloquentArticleRepository;
 use Scaffold\Repositories\Users\UserRepositoryInterface;
@@ -27,6 +29,7 @@ class DatabaseServiceProvider extends ServiceProvider {
 	public function register() {
 		$this->registerArticleRepository();
 		$this->registerUserRepository();
+		$this->registerCommentRepository();
 	}
 
 	private function registerArticleRepository() {
@@ -37,4 +40,7 @@ class DatabaseServiceProvider extends ServiceProvider {
 		return $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);
 	}
 
+	private function registerCommentRepository() {
+		return $this->app->bind(CommentRepositoryInterface::class, EloquentCommentRepository::class);
+	}
 }

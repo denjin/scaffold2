@@ -5,7 +5,15 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests\CommentRequest;
+use Scaffold\Repositories\Comments\CommentRepositoryInterface;
+
 class CommentsController extends Controller {
+	protected $comment;
+
+	public function __construct(CommentRepositoryInterface $comment) {
+		$this->comment = $comment;
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -29,11 +37,17 @@ class CommentsController extends Controller {
 
 	/**
 	 * Store a newly created resource in storage.
-	 *
+	 * @param $request
 	 * @return Response
 	 */
-	public function store() {
-
+	public function store(CommentRequest $request) {
+		$comment = $this->comment->store($request->all());
+		if($comment) {
+			dd($comment);
+			//return redirect()->action('ArticlesController@show', [$article['slug']]);
+		}
+		dd($request);
+		//return redirect()->action('ArticlesController@create')->with($request->all());
 	}
 
 	/**
